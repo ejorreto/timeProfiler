@@ -2,11 +2,11 @@
 
 C library to profile execution times
 
-## What is this about?
+## What is this about?
 
 The timeProfiler library is a tool that basically measures time between calls to the library, with the goal of calculating some statistics and help understand how much time is spent in different parts of your program. No more, no less.
 
-## Key principles
+## Key principles
 
 The timeProfiler is built under the following principles:
 
@@ -29,8 +29,7 @@ cmake ..
 make
 ```
 
-
-### Unit tests
+### Unit tests
 
 For unit testing the TEST environment has to be selected. This will compile the library for Posix and build the Unity based unit tests. Allowing to run the tests and gather coverage with a single command.
 
@@ -40,4 +39,4 @@ cmake .. -DENV=TEST
 make unittest
 ```
 
-This will produce the coverage reports in the doc_reports folder.
+This will produce the coverage reports in the reports folder.
