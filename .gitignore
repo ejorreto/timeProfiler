@@ -1,0 +1,6 @@
+build
+credentials
+.scannerwork
+.vscode
+doc/html
+.DS_Store
