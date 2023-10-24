@@ -11,10 +11,12 @@ void tProfStart(tProf_t * profiler)
   if (profiler->currentIndex < profiler->nIncrements)
   {
     profiler->tStart = tProfReadClock();
+    profiler->status = TPROF_RUNNING;
   }
   else
   {
     /* Profiler full */
+    profiler->status = TPROF_FULL;
   }
 }
 
@@ -29,19 +31,30 @@ void tProfStop(tProf_t * profiler)
     profiler->tIncrements[profiler->currentIndex] = increment;
 
     profiler->currentIndex++;
+    profiler->status = TPROF_STOPPED;
   }
   else
   {
     /* Profiler full */
+    profiler->status = TPROF_FULL;
   }
 }
 
 void tProfCalculateStatistics(tProf_t * profiler)
 {
-  uint32_t lastIndex = profiler->currentIndex < profiler->nIncrements ? profiler->currentIndex : profiler->nIncrements;
-  for (uint32_t i = 0; i < lastIndex; i++)
+  uint32_t lastIndex;
+
+  if (profiler->status == TPROF_STOPPED)
   {
-    profiler->tMin = profiler->tIncrements[i] < profiler->tMin ? profiler->tIncrements[i] : profiler->tMin;
-    profiler->tMax = profiler->tIncrements[i] > profiler->tMax ? profiler->tIncrements[i] : profiler->tMax;
+    lastIndex = profiler->currentIndex < profiler->nIncrements ? profiler->currentIndex : profiler->nIncrements;
+    for (uint32_t i = 0; i < lastIndex; i++)
+    {
+      profiler->tMin = profiler->tIncrements[i] < profiler->tMin ? profiler->tIncrements[i] : profiler->tMin;
+      profiler->tMax = profiler->tIncrements[i] > profiler->tMax ? profiler->tIncrements[i] : profiler->tMax;
+    }
+  }
+  else
+  {
+    profiler->status = TPROF_ERROR;
   }
 }
