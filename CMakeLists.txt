@@ -23,7 +23,7 @@ if(ENV STREQUAL TEST)
 else()
 
   set(CMAKE_C_FLAGS "-g -O0 -Wall -Werror")
-  set(SOURCES code/src/timeProfiler.c)
+  set(SOURCES code/src/timeProfiler.c code/src/timeProfiler_clock_posix.c)
   include_directories(${CMAKE_CURRENT_LIST_DIR}/code/include)
   add_library(timeProfiler STATIC ${SOURCES})
   target_include_directories(timeProfiler PUBLIC ${CMAKE_CURRENT_LIST_DIR}/code/include)

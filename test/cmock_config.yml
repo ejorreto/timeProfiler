@@ -1,0 +1,7 @@
+:cmock:
+  :when_no_prototypes: :warn
+  :treat_externs: :include
+  :plugins:
+    - :ignore
+    - :callback
+    - :expect_any_args

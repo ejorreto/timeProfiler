@@ -11,12 +11,12 @@
 #define TPROF_INIT(_name, _nIncrements)       \
   uint32_t tIncrements_##_name[_nIncrements]; \
   tProf_t  _name = {                          \
-       .tStddev       = 0.0,                   \
+       .tStddev      = 0.0,                   \
        .tAverage     = 0.0,                   \
        .tMin         = UINT32_MAX,            \
        .tMax         = 0,                     \
        .tStart       = 0,                     \
-       .tStopUsec    = 0,                     \
+       .tStop        = 0,                     \
        .tIncrements  = tIncrements_##_name,   \
        .nIncrements  = _nIncrements,          \
        .currentIndex = 0,                     \
@@ -42,12 +42,12 @@ typedef enum tProfStatus_t
  */
 typedef struct tProf_t
 {
-  double        tStddev;       /*!< Standard deviation */
+  double        tStddev;      /*!< Standard deviation */
   double        tAverage;     /*!< Average time measured */
   uint32_t      tMin;         /*!< Minimum time measured */
   uint32_t      tMax;         /*!< Maximum time measured */
   uint32_t      tStart;       /*!< Starting time of the current measurement */
-  uint32_t      tStopUsec;    /*!< Stopping time of the current measurement */
+  uint32_t      tStop;        /*!< Stopping time of the current measurement */
   uint32_t *    tIncrements;  /*!< Array to store the measurements */
   uint32_t      nIncrements;  /*!< Max number of measurements in this profiler */
   uint32_t      currentIndex; /*!< Index of the current measurement */
@@ -62,5 +62,9 @@ typedef struct tProf_t
  * @return false error fooing time profiler
  */
 bool tProf_foo(void);
+
+void tProfStart(tProf_t * profiler);
+void tProfStop(tProf_t * profiler);
+void tProfCalculateStatistics(tProf_t * profiler);
 
 #endif
