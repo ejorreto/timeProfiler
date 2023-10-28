@@ -73,16 +73,36 @@ typedef struct tProf_t
   tProfStatus_t status;       /*!< Status */
 } tProf_t;
 
-/**
- * @brief Foo a time profiler
- *
- * @return true time profiler fooed
- * @return false error fooing time profiler
- */
-bool tProf_foo(void);
 
+/**
+ * @brief Store the current time before executing the function being profiled
+ * 
+ * @param profiler Profiler to be used to store the data
+ */
 void tProfStart(tProf_t * profiler);
+
+/**
+ * @brief Store the current time after executiong the function being profiled
+ * 
+ * @param profiler Profiler to be used to store the data
+ */
 void tProfStop(tProf_t * profiler);
+
+/**
+ * @brief Calculate some statistics on the measurements performed
+ * 
+ * @param profiler Profiler to be used
+ */
 void tProfCalculateStatistics(tProf_t * profiler);
+
+/**
+ * @brief Output the statistics of a profiler. To be implemented differently in different hosts / environments
+ * 
+ * @param profiler Profiler to get the statistics from
+ * @param detailed_statistics True if detailed statistics are required, i.e.: Printing all measurements besides
+ * the min/max/average etc...
+ */
+void tProfGetStatistics(const tProf_t * profiler, bool detailed_statistics);
+
 
 #endif

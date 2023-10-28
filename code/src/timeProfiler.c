@@ -19,12 +19,6 @@
 #include <math.h>
 #include <timeProfiler.h>
 #include <timeProfiler_clock.h>
-#include <timeProfiler_statistics.h>
-
-bool tProf_foo(void)
-{
-  return true;
-}
 
 void tProfStart(tProf_t * profiler)
 {

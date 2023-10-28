@@ -1,9 +1,13 @@
 #include <timeProfiler.h>
-#include <timeProfiler_statistics.h>
 
 #include <unistd.h>
 #include <stdio.h>
 
+/**
+ * @brief Sample program
+ * 
+ * @return int 0
+ */
 int main(void)
 {
   printf("Sample program: Measuring the duration of sleep(1)\n");

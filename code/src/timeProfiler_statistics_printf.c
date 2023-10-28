@@ -17,12 +17,13 @@
  */
 
 #include <stdio.h>
-#include <timeprofiler_statistics.h>
+#include <timeProfiler.h>
 
 void tProfGetStatistics(const tProf_t * profiler, bool detailed_statistics)
 {
   if (detailed_statistics == true)
   {
+    /* Print the full list of measurments separated by ; for further processing offline */
     for (uint32_t i = 0; i < profiler->currentIndex; i++)
     {
       printf("%s;%u;%u\n", profiler->name, i, profiler->tIncrements[i]);

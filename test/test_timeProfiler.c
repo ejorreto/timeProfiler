@@ -15,20 +15,18 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#define UNITY_SUPPORT_TEST_CASES
 
-#include "timeProfiler.h"
-#include "timeProfiler_statistics.h"
-#include "unity.h"
 #include <math.h>
 #include <stdbool.h>
 #include <stdio.h>
 
+#include "unity.h"
 #include <MocktimeProfiler_clock.h>
+
+#include "timeProfiler.h"
 
 void setUp(void)
 {
-  /* Nothing to setup yet */
   MocktimeProfiler_clock_Init();
   MocktimeProfiler_clock_Verify();
 }
@@ -36,11 +34,6 @@ void setUp(void)
 void tearDown(void)
 {
   /* Nothing to tear down yet */
-}
-
-void test_tProf_foo(void)
-{
-  TEST_ASSERT_EQUAL(true, tProf_foo());
 }
 
 void test_tProf_init(void)
@@ -159,7 +152,6 @@ void test_tProf_statisticsStddevAverage(void)
 int main(void)
 {
   UNITY_BEGIN();
-  RUN_TEST(test_tProf_foo);
   RUN_TEST(test_tProf_init);
   RUN_TEST(test_tProf_stats_maxmin);
   RUN_TEST(test_tProf_overflow);
