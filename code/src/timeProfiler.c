@@ -46,6 +46,25 @@ void tProfStop(tProf_t * profiler)
 
     profiler->currentIndex++;
     profiler->status = TPROF_STOPPED;
+    if (profiler->currentIndex == profiler->nIncrements)
+    {
+      /* Profiler full */
+      profiler->status = TPROF_FULL;
+      if (profiler->statisticsMode == STATISTICS_AUTOLITE)
+      {
+        tProfCalculateStatistics(profiler);
+        tProfGetStatistics(profiler, false);
+      }
+      else if (profiler->statisticsMode == STATISTICS_AUTOFULL)
+      {
+        tProfCalculateStatistics(profiler);
+        tProfGetStatistics(profiler, true);
+      }
+      else
+      {
+        /* Statics to be calculated manually by the user */
+      }
+    }
   }
   else
   {

@@ -38,7 +38,7 @@ void tearDown(void)
 
 void test_tProf_init(void)
 {
-  TPROF_INIT(sample, 10);
+  TPROF_INIT(sample, 10, STATISTICS_MANUAL);
 
   TEST_ASSERT_EQUAL_DOUBLE(0.0, sample.tStddev);
   TEST_ASSERT_EQUAL_DOUBLE(0.0, sample.tAverage);
@@ -54,7 +54,7 @@ void test_tProf_init(void)
 
 void test_tProf_stats_maxmin(void)
 {
-  TPROF_INIT(sample, 10);
+  TPROF_INIT(sample, 10, STATISTICS_MANUAL);
   tProfReadClock_ExpectAndReturn(1);
   tProfReadClock_ExpectAndReturn(3);
   tProfStart(&sample);
@@ -73,7 +73,7 @@ void test_tProf_stats_maxmin(void)
 
 void test_tProf_overflow(void)
 {
-  TPROF_INIT(sample, 10);
+  TPROF_INIT(sample, 10, STATISTICS_MANUAL);
   for (uint32_t i = 0; i < sample.nIncrements + 1; i++)
   {
     tProfReadClock_ExpectAndReturn(1);
@@ -87,7 +87,7 @@ void test_tProf_overflow(void)
 
 void test_tProf_incorrectOperation(void)
 {
-  TPROF_INIT(sample, 10);
+  TPROF_INIT(sample, 10, STATISTICS_MANUAL);
 
   tProfReadClock_ExpectAndReturn(1);
 
@@ -99,7 +99,7 @@ void test_tProf_incorrectOperation(void)
 
 void test_tProf_emptyProfiler(void)
 {
-  TPROF_INIT(sample, 10);
+  TPROF_INIT(sample, 10, STATISTICS_MANUAL);
 
   tProfCalculateStatistics(&sample);
 
@@ -108,7 +108,7 @@ void test_tProf_emptyProfiler(void)
 
 void test_tProf_statisticsSimple(void)
 {
-  TPROF_INIT(sample, 10);
+  TPROF_INIT(sample, 10, STATISTICS_MANUAL);
   for (uint32_t i = 0; i < sample.nIncrements + 1; i++)
   {
     tProfReadClock_ExpectAndReturn(1);
@@ -122,7 +122,7 @@ void test_tProf_statisticsSimple(void)
 
 void test_tProf_statisticsDetailed(void)
 {
-  TPROF_INIT(sample, 10);
+  TPROF_INIT(sample, 10, STATISTICS_MANUAL);
   for (uint32_t i = 0; i < sample.nIncrements + 1; i++)
   {
     tProfReadClock_ExpectAndReturn(1);
@@ -136,7 +136,7 @@ void test_tProf_statisticsDetailed(void)
 
 void test_tProf_statisticsStddevAverage(void)
 {
-  TPROF_INIT(sample, 10);
+  TPROF_INIT(sample, 10, STATISTICS_MANUAL);
   for (uint32_t i = 0; i < sample.nIncrements + 1; i++)
   {
     tProfReadClock_ExpectAndReturn(1);
@@ -147,6 +147,30 @@ void test_tProf_statisticsStddevAverage(void)
   tProfCalculateStatistics(&sample);
   TEST_ASSERT_DOUBLE_WITHIN(0.01, 2.8722813, sample.tStddev);
   TEST_ASSERT_DOUBLE_WITHIN(0.01, 4.5, sample.tAverage);
+}
+
+void test_tProf_statisticsAutolite(void)
+{
+  TPROF_INIT(sample, 10, STATISTICS_AUTOLITE);
+  for (uint32_t i = 0; i < sample.nIncrements; i++)
+  {
+    tProfReadClock_ExpectAndReturn(1);
+    tProfReadClock_ExpectAndReturn(i + 1);
+    tProfStart(&sample);
+    tProfStop(&sample);
+  }
+}
+
+void test_tProf_statisticsAutofull(void)
+{
+  TPROF_INIT(sample, 10, STATISTICS_AUTOFULL);
+  for (uint32_t i = 0; i < sample.nIncrements; i++)
+  {
+    tProfReadClock_ExpectAndReturn(1);
+    tProfReadClock_ExpectAndReturn(i + 1);
+    tProfStart(&sample);
+    tProfStop(&sample);
+  }
 }
 
 int main(void)
@@ -161,6 +185,8 @@ int main(void)
   RUN_TEST(test_tProf_statisticsSimple);
   RUN_TEST(test_tProf_statisticsDetailed);
   RUN_TEST(test_tProf_statisticsStddevAverage);
+  RUN_TEST(test_tProf_statisticsAutolite);
+  RUN_TEST(test_tProf_statisticsAutofull);
 
   return UNITY_END();
 }

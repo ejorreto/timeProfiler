@@ -19,9 +19,9 @@
 #include <stdio.h>
 #include <timeProfiler.h>
 
-void tProfGetStatistics(const tProf_t * profiler, bool detailed_statistics)
+void tProfGetStatistics(const tProf_t * profiler, bool detailedStatistics)
 {
-  if (detailed_statistics == true)
+  if (detailedStatistics == true)
   {
     /* Print the full list of measurments separated by ; for further processing offline */
     for (uint32_t i = 0; i < profiler->currentIndex; i++)
