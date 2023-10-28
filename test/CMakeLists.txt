@@ -3,10 +3,11 @@ include_directories(../code/include mocks)
 add_executable(test_tProf 
   test_timeProfiler.c
   ../code/src/timeProfiler.c
+  ../code/src/timeProfiler_statistics_printf.c
   mocks/MocktimeProfiler_clock.c
   )
 
-target_link_libraries(test_tProf Unity_CMock)
+target_link_libraries(test_tProf Unity_CMock m)
 
 add_test(test_tProf ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/test_tProf)
 
@@ -14,7 +15,8 @@ set(REPORT_FILE coverage_report.txt)
 
 add_custom_target(unittest
     DEPENDS test_tProf
-    COMMAND ctest --output-on-failure --output-junit ${CMAKE_SOURCE_DIR}/reports/ctest-results.xml
+    COMMAND find ./ -name "*.gcda" -exec rm {} "\;"
+    COMMAND ctest -V --output-on-failure --output-junit ${CMAKE_SOURCE_DIR}/reports/ctest-results.xml
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
     )
 
