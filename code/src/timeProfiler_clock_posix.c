@@ -20,10 +20,17 @@
 
 #include <time.h>
 
+/* TODO Review data type selection for this clock to identify overflows */
+
+/**
+ * @brief Gets the time of microseconds since the Epoch
+ * 
+ * @return uint32_t Microseconds
+ */
 uint32_t tProfReadClock(void)
 {
-  struct timespec tempReadClock;
-  clock_gettime(CLOCK_REALTIME, &tempReadClock);
-  // Alternative clocks that can be used: CLOCK_REALTIME , CLOCK_PROCESS_CPUTIME_ID
-  return (uint32_t)((1e6 * tempReadClock.tv_sec) + (1e-3 * tempReadClock.tv_nsec));
+  struct timespec timeSinceEpoch;
+  clock_gettime(CLOCK_REALTIME, &timeSinceEpoch);
+  // Alternative clocks that can be used: CLOCK_REALTIME , CLOCK_PROCESS_CPUTIME_ID, but they depend on the implementation
+  return (uint32_t)((1e6 * timeSinceEpoch.tv_sec) + (1e-3 * timeSinceEpoch.tv_nsec));
 }

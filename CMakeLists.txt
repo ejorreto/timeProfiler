@@ -11,6 +11,8 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 set(COVERAGE_FLAGS "-fprofile-arcs -ftest-coverage")
 
+
+# TODO Group configurations between POSIX, RTEMS and FreeRTOS, as only the selected clock file is different at this point
 if(ENV STREQUAL TEST)
   # Unit test environment, linux based
 
@@ -20,6 +22,36 @@ if(ENV STREQUAL TEST)
   include(CTest)  
   add_subdirectory(external)  
   add_subdirectory(test)  
+
+elseif(ENV STREQUAL RTEMS)
+  # RTEMS environment
+
+  set(CMAKE_C_FLAGS "-O0 -Wall -Werror")
+  set(SOURCES code/src/timeProfiler.c code/src/timeProfiler_clock_rtems.c code/src/timeProfiler_statistics_printf.c)
+  
+  include_directories(${CMAKE_CURRENT_LIST_DIR}/code/include)
+  
+  add_library(timeProfiler STATIC ${SOURCES})
+  target_link_libraries(timeProfiler m)
+  target_include_directories(timeProfiler PUBLIC ${CMAKE_CURRENT_LIST_DIR}/code/include)
+
+  add_executable(sample_program code/src/sample_program.c)
+  target_link_libraries(sample_program timeProfiler)
+
+elseif(ENV STREQUAL FREERTOS)
+  # FreeRTOS environment
+
+  set(CMAKE_C_FLAGS "-O0 -Wall -Werror")
+  set(SOURCES code/src/timeProfiler.c code/src/timeProfiler_clock_freertos.c code/src/timeProfiler_statistics_printf.c)
+  
+  include_directories(${CMAKE_CURRENT_LIST_DIR}/code/include)
+  
+  add_library(timeProfiler STATIC ${SOURCES})
+  target_link_libraries(timeProfiler m)
+  target_include_directories(timeProfiler PUBLIC ${CMAKE_CURRENT_LIST_DIR}/code/include)
+
+  add_executable(sample_program code/src/sample_program.c)
+  target_link_libraries(sample_program timeProfiler)
 
 else()
   # Posix environment
