@@ -17,8 +17,12 @@
  */
 
 #include <math.h>
+#include <stddef.h>
+
 #include <timeProfiler.h>
 #include <timeProfiler_clock.h>
+
+void (* tProfGetStatistics)(const tProf_t * profiler, bool detailedStatistics) = NULL;
 
 void tProfStart(tProf_t * profiler)
 {
@@ -53,12 +57,18 @@ void tProfStop(tProf_t * profiler)
       if (profiler->statisticsMode == STATISTICS_AUTOLITE)
       {
         tProfCalculateStatistics(profiler);
-        tProfGetStatistics(profiler, false);
+        if (tProfGetStatistics != NULL)
+        {
+          tProfGetStatistics(profiler, false);
+        }
       }
       else if (profiler->statisticsMode == STATISTICS_AUTOFULL)
       {
         tProfCalculateStatistics(profiler);
-        tProfGetStatistics(profiler, true);
+        if (tProfGetStatistics != NULL)
+        {
+          tProfGetStatistics(profiler, true);
+        }
       }
       else
       {
