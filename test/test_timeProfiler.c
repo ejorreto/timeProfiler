@@ -16,7 +16,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <math.h>
 #include <stdbool.h>
 #include <stdio.h>
 
@@ -24,11 +23,13 @@
 #include <MocktimeProfiler_clock.h>
 
 #include "timeProfiler.h"
+#include "timeProfiler_statistics_printf.h"
 
 void setUp(void)
 {
   MocktimeProfiler_clock_Init();
   MocktimeProfiler_clock_Verify();
+  tProfGetStatistics = &tProfPrintfStatistics;
 }
 
 void tearDown(void)

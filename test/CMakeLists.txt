@@ -1,13 +1,12 @@
-include_directories(../code/include mocks)
+include_directories(../code/include ../examples mocks)
 
 add_executable(test_tProf 
   test_timeProfiler.c
-  ../code/src/timeProfiler.c
   ../examples/timeProfiler_statistics_printf.c
   mocks/MocktimeProfiler_clock.c
   )
 
-target_link_libraries(test_tProf Unity_CMock m)
+target_link_libraries(test_tProf timeProfiler Unity_CMock m)
 
 add_test(test_tProf ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/test_tProf)
 

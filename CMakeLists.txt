@@ -20,48 +20,26 @@ if(ENV STREQUAL TEST)
   # Enable the use of doubles in Unity
   ADD_COMPILE_DEFINITIONS(UNITY_INCLUDE_DOUBLE)
   include(CTest)  
+  add_subdirectory(library)
   add_subdirectory(external)  
   add_subdirectory(test)  
 
 elseif(ENV STREQUAL RTEMS)
   # RTEMS environment
 
-  set(CMAKE_C_FLAGS "-O0 -Wall -Werror")
-  set(SOURCES code/src/timeProfiler.c code/src/timeProfiler_clock_rtems.c examples/timeProfiler_statistics_printf.c)
-  
-  include_directories(${CMAKE_CURRENT_LIST_DIR}/code/include)
-  
-  add_library(timeProfiler STATIC ${SOURCES})
-  target_link_libraries(timeProfiler m)
-  target_include_directories(timeProfiler PUBLIC ${CMAKE_CURRENT_LIST_DIR}/code/include)
+  add_subdirectory(library)
 
 elseif(ENV STREQUAL FREERTOS)
   # FreeRTOS environment
 
-  set(CMAKE_C_FLAGS "-O0 -Wall -Werror")
-  set(SOURCES code/src/timeProfiler.c code/src/timeProfiler_clock_freertos.c examples/timeProfiler_statistics_printf.c)
-  
-  include_directories(${CMAKE_CURRENT_LIST_DIR}/code/include)
-  
-  add_library(timeProfiler STATIC ${SOURCES})
-  target_link_libraries(timeProfiler m)
-  target_include_directories(timeProfiler PUBLIC ${CMAKE_CURRENT_LIST_DIR}/code/include)
+  add_subdirectory(library)
 
 else()
   # Posix environment
 
-  set(CMAKE_C_FLAGS "-O0 -Wall -Werror")
-  set(SOURCES code/src/timeProfiler.c 
-    code/src/timeProfiler_clock_posix.c 
-    examples/timeProfiler_statistics_printf.c)
-  
-  include_directories(${CMAKE_CURRENT_LIST_DIR}/code/include)
-  
-  add_library(timeProfiler STATIC ${SOURCES})
-  target_link_libraries(timeProfiler m)
-  target_include_directories(timeProfiler PUBLIC ${CMAKE_CURRENT_LIST_DIR}/code/include)
+  add_subdirectory(library)
 
-  add_executable(example_posix examples/example_posix.c)
+  add_executable(example_posix examples/example_posix.c examples/timeProfiler_statistics_printf.c)
   target_link_libraries(example_posix timeProfiler)
 
 endif()
