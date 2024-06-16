@@ -174,6 +174,32 @@ void test_tProf_statisticsAutofull(void)
   }
 }
 
+void test_tProf_statisticsAutoliteNull(void)
+{
+  TPROF_INIT(sample, 10, STATISTICS_AUTOLITE);
+  tProfGetStatistics = NULL;
+  for (uint32_t i = 0; i < sample.nIncrements; i++)
+  {
+    tProfReadClock_ExpectAndReturn(1);
+    tProfReadClock_ExpectAndReturn(i + 1);
+    tProfStart(&sample);
+    tProfStop(&sample);
+  }
+}
+
+void test_tProf_statisticsAutofullNull(void)
+{
+  TPROF_INIT(sample, 10, STATISTICS_AUTOFULL);
+  tProfGetStatistics = NULL;
+  for (uint32_t i = 0; i < sample.nIncrements; i++)
+  {
+    tProfReadClock_ExpectAndReturn(1);
+    tProfReadClock_ExpectAndReturn(i + 1);
+    tProfStart(&sample);
+    tProfStop(&sample);
+  }
+}
+
 int main(void)
 {
   UNITY_BEGIN();
@@ -189,5 +215,7 @@ int main(void)
   RUN_TEST(test_tProf_statisticsAutolite);
   RUN_TEST(test_tProf_statisticsAutofull);
 
+  RUN_TEST(test_tProf_statisticsAutoliteNull);
+  RUN_TEST(test_tProf_statisticsAutofullNull);
   return UNITY_END();
 }

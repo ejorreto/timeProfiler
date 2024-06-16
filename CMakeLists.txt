@@ -9,13 +9,10 @@ SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 # Produce the Compilation database (compile_commands.json) file
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-set(COVERAGE_FLAGS "-fprofile-arcs -ftest-coverage")
-
-
 # TODO Group configurations between POSIX, RTEMS and FreeRTOS, as only the selected clock file is different at this point
 if(ENV STREQUAL TEST)
   # Unit test environment, linux based
-
+  set(COVERAGE_FLAGS "-fprofile-arcs -ftest-coverage")
   set(CMAKE_C_FLAGS "-g -O0 -Wall -Werror ${COVERAGE_FLAGS}")
   # Enable the use of doubles in Unity
   ADD_COMPILE_DEFINITIONS(UNITY_INCLUDE_DOUBLE)
