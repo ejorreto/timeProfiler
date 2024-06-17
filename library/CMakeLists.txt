@@ -24,7 +24,7 @@ if(ENV STREQUAL TEST)
 elseif(ENV STREQUAL RTEMS)
   # RTEMS environment
 
-  set(CMAKE_C_FLAGS ${CMAKE_C_FLAGS} "-O0 -Wall -Werror")
+  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O0 -Wall -Werror")
   set(SOURCES src/timeProfiler.c src/timeProfiler_clock_rtems.c)
   
   include_directories(${CMAKE_CURRENT_LIST_DIR}/include)
@@ -36,7 +36,7 @@ elseif(ENV STREQUAL RTEMS)
 elseif(ENV STREQUAL FREERTOS)
   # FreeRTOS environment
 
-  set(CMAKE_C_FLAGS ${CMAKE_C_FLAGS} "-O0 -Wall -Werror")
+  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O0 -Wall -Werror")
   set(SOURCES src/timeProfiler.c src/timeProfiler_clock_freertos.c)
   
   include_directories(${CMAKE_CURRENT_LIST_DIR}/include)
@@ -48,7 +48,7 @@ elseif(ENV STREQUAL FREERTOS)
 else()
   # Posix environment
 
-  set(CMAKE_C_FLAGS ${CMAKE_C_FLAGS} "-O0 -Wall -Werror")
+  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O0 -Wall -Werror")
   set(SOURCES src/timeProfiler.c src/timeProfiler_clock_posix.c)
   
   include_directories(${CMAKE_CURRENT_LIST_DIR}/include)
