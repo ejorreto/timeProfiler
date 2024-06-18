@@ -20,16 +20,24 @@
 
 #include <rtems.h>
 
-/* TODO Review data type selection for this clock to identify overflows */
-
 /**
- * @brief Gets the number of miliseconds since some time point during the system initialization using CLOCK_MONOTONIC
- * 
- * @return uint32_t Miliseconds
+ * @brief Gets the number of microseconds since some time point during the system initialization using CLOCK_MONOTONIC
+ *
+ * @return uint32_t Microseconds
  */
 uint32_t tProfReadClock(void)
 {
-  struct timespec uptime;
-  rtems_clock_get_uptime(&uptime);
-  return (uint32_t)((1e3 * uptime.tv_sec) + (1e-6 * uptime.tv_nsec));
+  struct timespec   uptime      = {0};
+  uint32_t          currentTime = 0;
+  rtems_status_code ec          = rtems_clock_get_uptime(&uptime);
+  if (ec == RTEMS_SUCCESSFUL)
+  {
+    currentTime = (uint32_t)((1000000 * uptime.tv_sec) + (uptime.tv_nsec / 1000));
+  }
+  else
+  {
+    currentTime = 0;
+    /* uptime not reachable */
+  }
+  return currentTime;
 }
