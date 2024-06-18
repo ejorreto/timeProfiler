@@ -108,12 +108,12 @@ void tProfStop(tProf_t * profiler);
 void tProfCalculateStatistics(tProf_t * profiler);
 
 /**
- * @brief Output the statistics of a profiler. To be implemented differently in different hosts / environments
+ * @brief Function pointer to output the statistics of a profiler. To be implemented differently in different hosts / environments
  *
  * @param profiler Profiler to get the statistics from
  * @param detailed_statistics True if detailed statistics are required, i.e.: Printing all measurements besides
  * the min/max/average etc...
  */
-void tProfGetStatistics(const tProf_t * profiler, bool detailedStatistics);
+extern void (* tProfGetStatistics)(const tProf_t * profiler, bool detailedStatistics);
 
 #endif
