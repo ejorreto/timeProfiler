@@ -22,7 +22,7 @@
 #include <timeProfiler.h>
 #include <timeProfiler_clock.h>
 
-void (* tProfGetStatistics)(const tProf_t * profiler, bool detailedStatistics) = NULL;
+void (*tProfGetStatistics)(const tProf_t * profiler, bool detailedStatistics) = NULL;
 
 void tProfStart(tProf_t * profiler)
 {
@@ -54,26 +54,26 @@ void tProfStop(tProf_t * profiler)
     {
       /* Profiler full, calculate statistics and print them */
       profiler->status = TPROF_FULL;
-      if (profiler->statisticsMode == STATISTICS_AUTOLITE)
+    }
+    if ((profiler->status == TPROF_FULL) && (profiler->statisticsMode == STATISTICS_AUTOLITE))
+    {
+      tProfCalculateStatistics(profiler);
+      if (tProfGetStatistics != NULL)
       {
-        tProfCalculateStatistics(profiler);
-        if (tProfGetStatistics != NULL)
-        {
-          tProfGetStatistics(profiler, false);
-        }
+        tProfGetStatistics(profiler, false);
       }
-      else if (profiler->statisticsMode == STATISTICS_AUTOFULL)
+    }
+    else if ((profiler->status == TPROF_FULL) && (profiler->statisticsMode == STATISTICS_AUTOFULL))
+    {
+      tProfCalculateStatistics(profiler);
+      if (tProfGetStatistics != NULL)
       {
-        tProfCalculateStatistics(profiler);
-        if (tProfGetStatistics != NULL)
-        {
-          tProfGetStatistics(profiler, true);
-        }
+        tProfGetStatistics(profiler, true);
       }
-      else
-      {
-        /* Statistics to be calculated manually by the user */
-      }
+    }
+    else
+    {
+      /* Statistics to be calculated manually by the user */
     }
   }
   else
