@@ -16,21 +16,28 @@
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <timeProfiler_clock.h>
-
 #include <time.h>
 
-/* TODO Review data type selection for this clock to identify overflows */
+#include <timeProfiler_clock.h>
 
 /**
  * @brief Gets the time of microseconds since the Epoch
  * 
- * @return uint32_t Microseconds
+ * @return uint32_t Microseconds. 0 if time cannot be obtained.
  */
 uint32_t tProfReadClock(void)
 {
   struct timespec timeSinceEpoch;
-  clock_gettime(CLOCK_REALTIME, &timeSinceEpoch);
-  // Alternative clocks that can be used: CLOCK_REALTIME , CLOCK_PROCESS_CPUTIME_ID, but they depend on the implementation
-  return (uint32_t)((1e6 * timeSinceEpoch.tv_sec) + (1e-3 * timeSinceEpoch.tv_nsec));
+  uint32_t currentTime = 0;
+  int ec = clock_gettime(CLOCK_REALTIME, &timeSinceEpoch);
+  if(ec == 0)
+  {
+    currentTime = (uint32_t)((1000000 * timeSinceEpoch.tv_sec) + (timeSinceEpoch.tv_nsec/1000));
+  }
+  else
+  {
+    currentTime = 0;
+    /* Error code in errno. Clock not implemented, timeSinceEpoch not reachable */
+  }
+  return currentTime;
 }
