@@ -36,7 +36,7 @@ else()
 
   add_subdirectory(library)
 
-  add_executable(example_posix examples/example_posix.c examples/timeProfiler_statistics_printf.c)
+  add_executable(example_posix examples/example_posix.c examples/example_statistics_printf.c)
   target_link_libraries(example_posix timeProfiler)
 
 endif()

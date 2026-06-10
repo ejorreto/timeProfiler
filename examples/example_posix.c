@@ -2,7 +2,7 @@
 #include <stdio.h>
 
 #include <timeProfiler.h>
-#include "timeProfiler_statistics_printf.h"
+#include "example_statistics_printf.h"
 
 /**
  * @brief Sample program

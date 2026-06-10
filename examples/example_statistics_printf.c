@@ -17,7 +17,7 @@
  */
 
 #include <stdio.h>
-#include "timeProfiler_statistics_printf.h"
+#include "example_statistics_printf.h"
 
 void tProfPrintfStatistics(const tProf_t * profiler, bool detailedStatistics)
 {
