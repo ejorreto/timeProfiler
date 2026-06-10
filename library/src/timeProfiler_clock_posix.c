@@ -14,7 +14,14 @@
 * 
 * You should have received a copy of the GNU General Public License
 * along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
+
+/**
+ * @file timeProfiler_clock_posix.c
+ * @brief POSIX clock implementation for timeProfiler.
+ *
+ * Returns the current time in microseconds since the Epoch using CLOCK_REALTIME.
+ */
 
 #include <time.h>
 

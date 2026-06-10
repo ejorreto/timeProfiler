@@ -1,3 +1,8 @@
+/**
+ * @file example_posix.c
+ * @brief Sample POSIX program demonstrating timeProfiler usage.
+ */
+
 #include <unistd.h>
 #include <stdio.h>
 

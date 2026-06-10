@@ -16,6 +16,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * @file timeProfiler_clock_freertos.c
+ * @brief FreeRTOS clock implementation for timeProfiler.
+ *
+ * Returns the number of ticks since vTaskStartScheduler was called.
+ * Convert to milliseconds with the pdTICKS_TO_MS macro.
+ */
+
 #include <timeProfiler_clock.h>
 
 #include "FreeRTOS.h"
@@ -24,8 +32,12 @@
 /* TODO Review data type selection for this clock to identify overflows */
 
 /**
- * @brief Gets the number of ticks since vTaskStartScheduler was called. Convert to miliseconds with the pdTICKS_TO_MS macro
- * #define pdTICKS_TO_MS( xTicks )   ( ( TickType_t ) ( ( uint64_t ) ( xTicks ) * 1000 / configTICK_RATE_HZ ) )
+ * @brief Gets the number of ticks since vTaskStartScheduler was called.
+ *
+ * Convert to milliseconds with the pdTICKS_TO_MS macro:
+ * @code
+ * #define pdTICKS_TO_MS(xTicks) ((TickType_t)((uint64_t)(xTicks) * 1000 / configTICK_RATE_HZ))
+ * @endcode
  *
  * @return uint32_t Ticks
  */
