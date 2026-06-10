@@ -1,0 +1,25 @@
+var searchData=
+[
+  ['taverage_0',['tAverage',['../structtProf__t.html#ac6ef8e0a820d2e4ee17193d503910695',1,'tProf_t']]],
+  ['tests_20coverage_1',['Unit tests &amp;amp; coverage',['../index.html#autotoc_md8',1,'']]],
+  ['this_20library_20does_20and_20does_20not_2',['What this library does (and does not)',['../index.html#autotoc_md1',1,'']]],
+  ['timeprofiler_3',['timeProfiler',['../index.html',1,'']]],
+  ['timeprofiler_2ec_4',['timeProfiler.c',['../timeProfiler_8c.html',1,'']]],
+  ['timeprofiler_5fclock_5ffreertos_2ec_5',['timeProfiler_clock_freertos.c',['../timeProfiler__clock__freertos_8c.html',1,'']]],
+  ['timeprofiler_5fclock_5fposix_2ec_6',['timeProfiler_clock_posix.c',['../timeProfiler__clock__posix_8c.html',1,'']]],
+  ['timeprofiler_5fclock_5frtems_2ec_7',['timeProfiler_clock_rtems.c',['../timeProfiler__clock__rtems_8c.html',1,'']]],
+  ['tincrements_8',['tIncrements',['../structtProf__t.html#ad450478b0c78904a0dfcaf227154a385',1,'tProf_t']]],
+  ['tmax_9',['tMax',['../structtProf__t.html#acab7a4d56d4f10723e814b1fbf2f0499',1,'tProf_t']]],
+  ['tmin_10',['tMin',['../structtProf__t.html#a8e9f4e8af0b06527f207d4cb24366f07',1,'tProf_t']]],
+  ['to_20build_11',['How to build',['../index.html#autotoc_md4',1,'']]],
+  ['tprof_5ft_12',['tProf_t',['../structtProf__t.html',1,'']]],
+  ['tprofcalculatestatistics_13',['tProfCalculateStatistics',['../timeProfiler_8c.html#ac8e57de70732014b6a596e21dc8cb88a',1,'timeProfiler.c']]],
+  ['tprofgetstatistics_14',['tProfGetStatistics',['../timeProfiler_8c.html#a543b6c9234cfa9d5b5fa3d72dcf94db9',1,'timeProfiler.c']]],
+  ['tprofprintfstatistics_15',['tProfPrintfStatistics',['../example__statistics__printf_8c.html#ad5fd911802b781d9a6c04f276102304c',1,'tProfPrintfStatistics(const tProf_t *profiler, bool detailedStatistics):&#160;example_statistics_printf.c'],['../example__statistics__printf_8h.html#ad5fd911802b781d9a6c04f276102304c',1,'tProfPrintfStatistics(const tProf_t *profiler, bool detailedStatistics):&#160;example_statistics_printf.c']]],
+  ['tprofreadclock_16',['tProfReadClock',['../timeProfiler__clock__freertos_8c.html#aa036e47e4eb52af27aea2a760f80c258',1,'tProfReadClock(void):&#160;timeProfiler_clock_freertos.c'],['../timeProfiler__clock__posix_8c.html#aa036e47e4eb52af27aea2a760f80c258',1,'tProfReadClock(void):&#160;timeProfiler_clock_posix.c'],['../timeProfiler__clock__rtems_8c.html#aa036e47e4eb52af27aea2a760f80c258',1,'tProfReadClock(void):&#160;timeProfiler_clock_rtems.c']]],
+  ['tprofstart_17',['tProfStart',['../timeProfiler_8c.html#a8fcd034d5e9c177abd1a7072e8f60e12',1,'timeProfiler.c']]],
+  ['tprofstop_18',['tProfStop',['../timeProfiler_8c.html#a28e282a579a86c1862ff0d408acce95d',1,'timeProfiler.c']]],
+  ['tstart_19',['tStart',['../structtProf__t.html#a66b5b42a40fe81e10846abca012b10eb',1,'tProf_t']]],
+  ['tstddev_20',['tStddev',['../structtProf__t.html#a5292141f15204b85a914f5bd6e3bce4f',1,'tProf_t']]],
+  ['tstop_21',['tStop',['../structtProf__t.html#ab7d89834d02ce4e56bce7127136a2b79',1,'tProf_t']]]
+];

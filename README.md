@@ -1,42 +1,149 @@
 # timeProfiler
 
-C library to profile execution times
+C library to profile execution times in embedded and POSIX environments.
 
-## What is this about?
+## What this library does (and does not)
 
-The timeProfiler library is a tool that basically measures time between calls to the library, with the goal of calculating some statistics and help understand how much time is spent in different parts of your program. No more, no less.
+The library **measures** time intervals and **calculates** statistics (min, max, average, standard deviation).  
+It **does not** know how to display or transmit those results.  
+
+You must provide a function that consumes the statistics and assign it to the global function pointer `tProfGetStatistics`.  This is a deliberate design choice: the library stays I/O-free so it can be used on systems without `printf`, UART, or a filesystem.
+
+```c
+tProfGetStatistics = &myCustomStatisticsHandler;
+TPROF_INIT(prof, 100, STATISTICS_AUTOFULL);
+```
+
+## Data flow
+
+```
+┌─────────────────┐     tProfStart()      ┌──────────────┐
+│   Your code     │ ─────────────────────>│  timeProfiler │
+│  (the code you  │                       │   library     │
+│   want to time) │ <─────────────────────│               │
+└─────────────────┘     tProfStop()       └──────────────┘
+                                                │
+                                                │ calculations
+                                                ▼
+                                       ┌──────────────────┐
+                                       │  tProfCalculate  │
+                                       │   Statistics()   │
+                                       └──────────────────┘
+                                                │
+                                                │ calls
+                                                ▼
+                                       ┌──────────────────┐
+                                       │  YOUR FUNCTION   │
+                                       │ tProfGetStatistics│
+                                       │ (printf, UART,   │
+                                       │  log, etc.)      │
+                                       └──────────────────┘
+```
+
+A **reference** `printf`-based implementation is provided in `examples/example_statistics_printf.c`, but it is **not** part of the library.  Copy it into your project or write your own.
 
 ## Key principles
 
-The timeProfiler is built under the following principles:
-
-* KISS: Keep It Simple, Stupid. Having the smallest footprint as possible, but not smaller, making it suitable for embedded systems.
-* Programmed in C.
-* Built with CMake
+* **KISS**: smallest footprint suitable for embedded systems.
+* Written in C, built with CMake.
 * Tested with Unity and CMock.
-* Be standards friendly. This is not meant to be critical software, but being close to such standards is always nice.
-* Don't over optimize.
+* I/O-agnostic: the library never calls `printf`, `malloc`, or any blocking operation.
+* This is experimental. Probably forever.
 * One solution does not fit all. There are multiple ways to measure time, software based and hardware based, timeProfiler does not aim to solve all use cases.
-* Experimental. Probably forever.
 
 ## How to build
 
-What version of the library is compiled is controlled via the ENV flag for CMake. The default value will build the library for the Posix environment.
+The build is controlled via the CMake `ENV` flag.
 
+```bash
+mkdir -p build && cd build
 ```
-cd build
+
+### POSIX (default)
+
+```bash
 cmake ..
 make
 ```
 
-### Unit tests
+This builds the static library and the `example_posix` executable.
 
-For unit testing the TEST environment has to be selected. This will compile the library for Posix and build the Unity based unit tests. Allowing to run the tests and gather coverage with a single command.
+### RTEMS
 
+```bash
+cmake .. -DENV=RTEMS
+make
 ```
-cd build
+
+### FreeRTOS
+
+```bash
+cmake .. -DENV=FREERTOS
+make
+```
+
+### Unit tests & coverage
+
+```bash
 cmake .. -DENV=TEST
 make unittest
 ```
 
-This will produce the coverage reports in the reports folder.
+* `make unittest` is a **custom target** that cleans `.gcda`, runs `ctest -V`, and generates coverage reports via `gcovr`.
+* Do **not** run `make test` or `ctest` directly if you want coverage.
+* Reports land in `reports/`.
+
+## Quick start
+
+```c
+#include <timeProfiler.h>
+
+/* You must implement this function or use the reference example */
+void myStatisticsHandler(const tProf_t * profiler, bool detailedStatistics)
+{
+    /* e.g. send over UART, write to flash, or print */
+}
+
+int main(void)
+{
+    tProfGetStatistics = &myStatisticsHandler;
+
+    TPROF_INIT(prof, 10, STATISTICS_AUTOFULL);
+
+    for (int i = 0; i < 10; i++)
+    {
+        tProfStart(&prof);
+        /* ... code to measure ... */
+        tProfStop(&prof);
+    }
+    /* When the profiler is full, statistics are calculated
+       and myStatisticsHandler is called automatically. */
+    return 0;
+}
+```
+
+## Reference example
+
+`examples/example_statistics_printf.c` shows one possible output handler using `printf`.  It is **not** compiled into the library.  Include it in your own project if you want console output.
+
+## Architecture
+
+| Directory | Contents |
+|-----------|----------|
+| `library/` | Core library (`timeProfiler.c`, `timeProfiler_clock_*.c`, headers) |
+| `examples/` | `example_posix.c` and `example_statistics_printf.c` (reference, not library) |
+| `test/` | Unity + CMock tests (`test_timeProfiler.c`) |
+| `external/` | Vendored Unity and CMock |
+
+## Clock implementations
+
+Time reading is platform-specific.  The library selects the appropriate source file at build time:
+
+| `ENV` | Clock source |
+|-------|--------------|
+| `POSIX` (default) | `library/src/timeProfiler_clock_posix.c` |
+| `TEST` | `library/src/timeProfiler_clock_posix.c` |
+| `RTEMS` | `library/src/timeProfiler_clock_rtems.c` |
+| `FREERTOS` | `library/src/timeProfiler_clock_freertos.c` |
+
+If you need a different clock, implement `uint32_t tProfReadClock(void)` and add it to the build.

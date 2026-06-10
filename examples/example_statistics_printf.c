@@ -16,8 +16,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * @file example_statistics_printf.c
+ * @brief Reference implementation of a statistics output handler using printf.
+ *
+ * This file is NOT part of the library. Copy it into your own project or use
+ * it as a starting point for a custom tProfGetStatistics handler.
+ */
+
 #include <stdio.h>
-#include "timeProfiler_statistics_printf.h"
+#include "example_statistics_printf.h"
 
 void tProfPrintfStatistics(const tProf_t * profiler, bool detailedStatistics)
 {

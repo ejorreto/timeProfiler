@@ -94,7 +94,7 @@ typedef struct tProf_t
 void tProfStart(tProf_t * profiler);
 
 /**
- * @brief Store the current time after executiong the function being profiled
+ * @brief Store the current time after executing the function being profiled
  *
  * @param profiler Profiler to be used to store the data
  */
@@ -108,10 +108,19 @@ void tProfStop(tProf_t * profiler);
 void tProfCalculateStatistics(tProf_t * profiler);
 
 /**
- * @brief Function pointer to output the statistics of a profiler. To be implemented differently in different hosts / environments
+ * @brief Function pointer to output the statistics of a profiler.
+ *
+ * @warning The application MUST set this pointer before using STATISTICS_AUTOLITE or
+ *          STATISTICS_AUTOFULL.  The library itself does not perform any I/O; it calls
+ *          this function when automatic statistics are requested.  If the pointer is NULL,
+ *          automatic statistics are silently skipped.
+ *
+ * A reference implementation using printf is provided in the examples directory, but it
+ * is NOT part of the library.  Implement your own handler (e.g. UART, log, flash write)
+ * or copy the reference into your project.
  *
  * @param profiler Profiler to get the statistics from
- * @param detailed_statistics True if detailed statistics are required, i.e.: Printing all measurements besides
+ * @param detailedStatistics True if detailed statistics are required, i.e.: Printing all measurements besides
  * the min/max/average etc...
  */
 extern void (* tProfGetStatistics)(const tProf_t * profiler, bool detailedStatistics);

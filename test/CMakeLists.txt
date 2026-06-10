@@ -2,7 +2,7 @@ include_directories(../code/include ../examples mocks)
 
 add_executable(test_tProf 
   test_timeProfiler.c
-  ../examples/timeProfiler_statistics_printf.c
+  ../examples/example_statistics_printf.c
   mocks/MocktimeProfiler_clock.c
   )
 

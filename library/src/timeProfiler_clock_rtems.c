@@ -16,6 +16,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * @file timeProfiler_clock_rtems.c
+ * @brief RTEMS clock implementation for timeProfiler.
+ *
+ * Returns the current time in microseconds since system initialization using
+ * CLOCK_MONOTONIC via rtems_clock_get_uptime.
+ */
+
 #include <timeProfiler_clock.h>
 
 #include <rtems.h>

@@ -16,6 +16,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * @file timeProfiler.c
+ * @brief Core implementation of the timeProfiler library.
+ */
+
 #include <math.h>
 #include <stddef.h>
 

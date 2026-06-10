@@ -36,7 +36,19 @@ else()
 
   add_subdirectory(library)
 
-  add_executable(example_posix examples/example_posix.c examples/timeProfiler_statistics_printf.c)
+  add_executable(example_posix examples/example_posix.c examples/example_statistics_printf.c)
   target_link_libraries(example_posix timeProfiler)
 
+endif()
+
+# Doxygen documentation target (optional)
+find_package(Doxygen)
+if(DOXYGEN_FOUND)
+  add_custom_target(docs
+    COMMAND ${DOXYGEN_EXECUTABLE} ${CMAKE_SOURCE_DIR}/doc/Doxyfile
+    WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/doc
+    COMMENT "Generating Doxygen HTML documentation"
+  )
+else()
+  message(STATUS "Doxygen not found; 'docs' target unavailable")
 endif()
