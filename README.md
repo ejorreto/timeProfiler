@@ -126,6 +126,17 @@ int main(void)
 
 `examples/example_statistics_printf.c` shows one possible output handler using `printf`.  It is **not** compiled into the library.  Include it in your own project if you want console output.
 
+## License
+
+timeProfiler is licensed under the **GNU Lesser General Public License v3 (or later)** with an added **linking exception**.
+
+What this means in practice:
+
+- You may use this library in **both open-source and proprietary projects**.
+- You may link it **statically or dynamically** without any requirement to open-source your own code.
+- If you **modify** the library itself, those modifications remain under LGPL and must be shared if you distribute the modified library.
+- The full exception text is included in [`LICENSE.md`](LICENSE.md).
+
 ## Architecture
 
 | Directory | Contents |

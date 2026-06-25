@@ -159,7 +159,31 @@ General Public License, you may choose any version of the GNU Lesser
 General Public License ever published by the Free Software Foundation.
 
   If the Library as you received it specifies that a proxy can decide
-whether future versions of the GNU Lesser General Public License shall
-apply, that proxy's public statement of acceptance of any version is
-permanent authorization for you to choose that version for the
-Library.
+  whether future versions of the GNU Lesser General Public License shall
+  apply, that proxy's public statement of acceptance of any version is
+  permanent authorization for you to choose that version for the
+  Library.
+
+------------------------------------------------------------------------------
+
+LINKING EXCEPTION
+
+In addition to the permissions in the GNU Lesser General Public License,
+the copyright holders give you unlimited permission to link the compiled
+version of this library into combinations with other programs, and to
+distribute those combinations without any restriction coming from the
+use of this library. (The General Public License restrictions do apply
+in other respects; for example, they cover modification of the library,
+and distribution when not linked into another program.)
+
+As a special exception, the copyright holders of this library give you
+permission to link this library with independent modules to produce an
+executable, regardless of the license terms of these independent modules,
+and to copy and distribute the resulting executable under terms of your
+choice, provided that you also meet, for each linked independent module,
+the terms and conditions of the license of that module. An independent
+module is a module which is not derived from or based on this library.
+
+If you modify this library, you may extend this exception to your version
+of the library, but you are not obligated to do so. If you do not wish to
+do so, delete this exception statement from your version.
