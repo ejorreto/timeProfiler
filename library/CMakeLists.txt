@@ -13,7 +13,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 if(ENV STREQUAL TEST)
   # Unit test environment, linux based
   set(COVERAGE_FLAGS "-fprofile-arcs -ftest-coverage")
-  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O0 -Wall -Werror ${COVERAGE_FLAGS}")
+  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Werror ${COVERAGE_FLAGS}")
 
   set(SOURCES src/timeProfiler.c src/timeProfiler_clock_posix.c)
   
@@ -26,7 +26,7 @@ if(ENV STREQUAL TEST)
 elseif(ENV STREQUAL RTEMS)
   # RTEMS environment
 
-  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O0 -Wall -Werror")
+  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Werror")
   set(SOURCES src/timeProfiler.c src/timeProfiler_clock_rtems.c)
   
   include_directories(${CMAKE_CURRENT_LIST_DIR}/include)
@@ -38,7 +38,7 @@ elseif(ENV STREQUAL RTEMS)
 elseif(ENV STREQUAL FREERTOS)
   # FreeRTOS environment
 
-  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O0 -Wall -Werror")
+  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Werror")
   set(SOURCES src/timeProfiler.c src/timeProfiler_clock_freertos.c)
   
   include_directories(${CMAKE_CURRENT_LIST_DIR}/include)
@@ -50,7 +50,7 @@ elseif(ENV STREQUAL FREERTOS)
 else()
   # Posix environment
 
-  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O0 -Wall -Werror")
+  set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Werror")
   set(SOURCES src/timeProfiler.c src/timeProfiler_clock_posix.c)
   
   include_directories(${CMAKE_CURRENT_LIST_DIR}/include)
