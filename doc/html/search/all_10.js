@@ -21,5 +21,6 @@ var searchData=
   ['tprofstop_18',['tProfStop',['../timeProfiler_8c.html#a28e282a579a86c1862ff0d408acce95d',1,'timeProfiler.c']]],
   ['tstart_19',['tStart',['../structtProf__t.html#a66b5b42a40fe81e10846abca012b10eb',1,'tProf_t']]],
   ['tstddev_20',['tStddev',['../structtProf__t.html#a5292141f15204b85a914f5bd6e3bce4f',1,'tProf_t']]],
-  ['tstop_21',['tStop',['../structtProf__t.html#ab7d89834d02ce4e56bce7127136a2b79',1,'tProf_t']]]
+  ['tstop_21',['tStop',['../structtProf__t.html#ab7d89834d02ce4e56bce7127136a2b79',1,'tProf_t']]],
+  ['types_20and_20compiler_20flags_22',['Build types and compiler flags',['../index.html#autotoc_md9',1,'']]]
 ];

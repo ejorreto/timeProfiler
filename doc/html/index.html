@@ -145,7 +145,27 @@ Unit tests &amp; coverage</h2>
 <li>Do <b>not</b> run <span class="tt">make test</span> or <span class="tt">ctest</span> directly if you want coverage.</li>
 <li>Reports land in <span class="tt">reports/</span>.</li>
 </ul>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md9"></a>
+<h2 class="doxsection"><a class="anchor" id="autotoc_md9"></a>
+Build types and compiler flags</h2>
+<p>The library itself does <b>not</b> force any optimization level, so you control it via standard CMake mechanisms.</p>
+<p>CMake automatically applies optimization flags when you set <span class="tt">CMAKE_BUILD_TYPE</span>:</p>
+<table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Build type  </th><th class="markdownTableHeadNone">Typical flags  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><span class="tt">Release</span>  </td><td class="markdownTableBodyNone"><span class="tt">-O3 -DNDEBUG</span>  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><span class="tt">Debug</span>  </td><td class="markdownTableBodyNone"><span class="tt">-O0 -g</span>  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone"><span class="tt">RelWithDebInfo</span>  </td><td class="markdownTableBodyNone"><span class="tt">-O2 -g -DNDEBUG</span>  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone"><span class="tt">MinSizeRel</span>  </td><td class="markdownTableBodyNone"><span class="tt">-Os -DNDEBUG</span>  </td></tr>
+</table>
+<p>You can also override or augment flags manually:</p>
+<div class="fragment"><div class="line">cmake .. -DCMAKE_C_FLAGS=&quot;-O2 -g&quot;</div>
+</div><!-- fragment --><p>Note that the library target always enforces <b><span class="tt">-Wall -Werror</span></b> regardless of build type.</p>
+<p>When building with <b><span class="tt">-DENV=TEST</span></b>, the configuration forces <span class="tt">-O0 -g</span> plus coverage flags (<span class="tt">-fprofile-arcs -ftest-coverage</span>) to ensure accurate <span class="tt">gcov</span> results, overriding any externally supplied optimization level.</p>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md10"></a>
 Quick start</h1>
 <div class="fragment"><div class="line"><span class="preprocessor">#include &lt;timeProfiler.h&gt;</span></div>
 <div class="line"> </div>
@@ -172,11 +192,21 @@ Quick start</h1>
 <div class="line">    <span class="keywordflow">return</span> 0;</div>
 <div class="line">}</div>
 <div class="ttc" id="aexample__posix_8c_html_a840291bc02cba5474a4cb46a9b9566fe"><div class="ttname"><a href="example__posix_8c.html#a840291bc02cba5474a4cb46a9b9566fe">main</a></div><div class="ttdeci">int main(void)</div><div class="ttdoc">Sample program.</div><div class="ttdef"><b>Definition</b> example_posix.c:17</div></div>
-<div class="ttc" id="astructtProf__t_html"><div class="ttname"><a href="structtProf__t.html">tProf_t</a></div><div class="ttdoc">Time profiler data. Note that the profiler does not know the time measurement unit (ms,...</div><div class="ttdef"><b>Definition</b> timeProfiler.h:74</div></div>
-</div><!-- fragment --><h1 class="doxsection"><a class="anchor" id="autotoc_md10"></a>
+<div class="ttc" id="astructtProf__t_html"><div class="ttname"><a href="structtProf__t.html">tProf_t</a></div><div class="ttdoc">Time profiler data. Note that the profiler does not know the time measurement unit (ms,...</div><div class="ttdef"><b>Definition</b> timeProfiler.h:75</div></div>
+</div><!-- fragment --><h1 class="doxsection"><a class="anchor" id="autotoc_md11"></a>
 Reference example</h1>
 <p><span class="tt"><a class="el" href="example__statistics__printf_8c.html" title="Reference implementation of a statistics output handler using printf.">examples/example_statistics_printf.c</a></span> shows one possible output handler using <span class="tt">printf</span>. It is <b>not</b> compiled into the library. Include it in your own project if you want console output.</p>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md11"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md12"></a>
+License</h1>
+<p>timeProfiler is licensed under the <b>GNU Lesser General Public License v3 (or later)</b> with an added <b>linking exception</b>.</p>
+<p>What this means in practice:</p>
+<ul>
+<li>You may use this library in <b>both open-source and proprietary projects</b>.</li>
+<li>You may link it <b>statically or dynamically</b> without any requirement to open-source your own code.</li>
+<li>If you <b>modify</b> the library itself, those modifications remain under LGPL and must be shared if you distribute the modified library.</li>
+<li>The full exception text is included in <span class="tt">LICENSE.md</span>.</li>
+</ul>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md13"></a>
 Architecture</h1>
 <table class="markdownTable">
 <tr class="markdownTableHead">
@@ -190,7 +220,7 @@ Architecture</h1>
 <tr class="markdownTableRowEven">
 <td class="markdownTableBodyNone"><span class="tt">external/</span>  </td><td class="markdownTableBodyNone">Vendored Unity and CMock  </td></tr>
 </table>
-<h1 class="doxsection"><a class="anchor" id="autotoc_md12"></a>
+<h1 class="doxsection"><a class="anchor" id="autotoc_md14"></a>
 Clock implementations</h1>
 <p>Time reading is platform-specific. The library selects the appropriate source file at build time:</p>
 <table class="markdownTable">
