@@ -93,6 +93,29 @@ make unittest
 * Do **not** run `make test` or `ctest` directly if you want coverage.
 * Reports land in `reports/`.
 
+### Build types and compiler flags
+
+The library itself does **not** force any optimization level, so you control it via standard CMake mechanisms.
+
+CMake automatically applies optimization flags when you set `CMAKE_BUILD_TYPE`:
+
+| Build type | Typical flags |
+|------------|---------------|
+| `Release` | `-O3 -DNDEBUG` |
+| `Debug` | `-O0 -g` |
+| `RelWithDebInfo` | `-O2 -g -DNDEBUG` |
+| `MinSizeRel` | `-Os -DNDEBUG` |
+
+You can also override or augment flags manually:
+
+```bash
+cmake .. -DCMAKE_C_FLAGS="-O2 -g"
+```
+
+Note that the library target always enforces **`-Wall -Werror`** regardless of build type.
+
+When building with **`-DENV=TEST`**, the configuration forces `-O0 -g` plus coverage flags (`-fprofile-arcs -ftest-coverage`) to ensure accurate `gcov` results, overriding any externally supplied optimization level.
+
 ## Quick start
 
 ```c
