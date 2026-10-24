@@ -1,4 +1,4 @@
-include_directories(../code/include ../examples mocks)
+include_directories(../examples mocks)
 
 add_executable(test_tProf 
   test_timeProfiler.c
