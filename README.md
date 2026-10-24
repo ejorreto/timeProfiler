@@ -116,6 +116,37 @@ Note that the library target always enforces **`-Wall -Werror`** regardless of b
 
 When building with **`-DTPROF_TARGET=TEST`**, the configuration forces `-O0 -g` plus coverage flags (`-fprofile-arcs -ftest-coverage`) to ensure accurate `gcov` results, overriding any externally supplied optimization level.
 
+### Install
+
+`make install` (or `cmake --install .` from the build directory) installs the library for consumption by other projects. Install rules exist for the `POSIX`, `RTEMS` and `FREERTOS` targets. The `TEST` configuration is excluded: it produces a coverage-instrumented, non-optimized library that is not fit for distribution.
+
+The install location is the standard `CMAKE_INSTALL_PREFIX` (default `/usr/local`):
+
+```bash
+cmake .. -DCMAKE_INSTALL_PREFIX=/your/install/prefix
+make
+cmake --install .        # or: make install
+```
+
+Installed layout (standard `GNUInstallDirs`):
+
+| Artifact | Destination |
+|----------|-------------|
+| `libtimeProfiler.a` (static) | `<prefix>/lib/` (`lib64` where applicable) |
+| `timeProfiler.h` (public API header) | `<prefix>/include/` |
+| CMake package files | `<prefix>/lib/cmake/timeProfiler/` |
+
+Only `timeProfiler.h` is installed — it is the entire public API. A custom clock implementation means rebuilding the library from source (see *Clock implementations* below). For RTEMS and FreeRTOS cross builds, pass your BSP/toolchain sysroot prefix as `CMAKE_INSTALL_PREFIX`.
+
+Consuming the library from another CMake project:
+
+```cmake
+find_package(timeProfiler CONFIG REQUIRED)
+target_link_libraries(your_app PRIVATE timeProfiler::timeProfiler)
+```
+
+The imported target carries the include path and the link library, so no manual `include_directories()` is needed. Linking the installed `libtimeProfiler.a` directly also works if you prefer not to use CMake packages.
+
 ## Quick start
 
 ```c
@@ -164,7 +195,7 @@ What this means in practice:
 
 | Directory | Contents |
 |-----------|----------|
-| `library/` | Core library (`timeProfiler.c`, `timeProfiler_clock_*.c`, headers) |
+| `library/` | Core library (`timeProfiler.c`, `timeProfiler_clock_*.c`, headers, CMake package template) |
 | `examples/` | `example_posix.c` and `example_statistics_printf.c` (reference, not library) |
 | `test/` | Unity + CMock tests (`test_timeProfiler.c`) |
 | `external/` | Vendored Unity and CMock |
