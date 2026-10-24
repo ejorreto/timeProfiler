@@ -53,7 +53,7 @@ A **reference** `printf`-based implementation is provided in `examples/example_s
 
 ## How to build
 
-The build is controlled via the CMake `ENV` flag.
+The build is controlled via the CMake `TPROF_TARGET` flag.
 
 ```bash
 mkdir -p build && cd build
@@ -71,21 +71,21 @@ This builds the static library and the `example_posix` executable.
 ### RTEMS
 
 ```bash
-cmake .. -DENV=RTEMS
+cmake .. -DTPROF_TARGET=RTEMS
 make
 ```
 
 ### FreeRTOS
 
 ```bash
-cmake .. -DENV=FREERTOS
+cmake .. -DTPROF_TARGET=FREERTOS
 make
 ```
 
 ### Unit tests & coverage
 
 ```bash
-cmake .. -DENV=TEST
+cmake .. -DTPROF_TARGET=TEST
 make unittest
 ```
 
@@ -114,7 +114,7 @@ cmake .. -DCMAKE_C_FLAGS="-O2 -g"
 
 Note that the library target always enforces **`-Wall -Werror`** regardless of build type.
 
-When building with **`-DENV=TEST`**, the configuration forces `-O0 -g` plus coverage flags (`-fprofile-arcs -ftest-coverage`) to ensure accurate `gcov` results, overriding any externally supplied optimization level.
+When building with **`-DTPROF_TARGET=TEST`**, the configuration forces `-O0 -g` plus coverage flags (`-fprofile-arcs -ftest-coverage`) to ensure accurate `gcov` results, overriding any externally supplied optimization level.
 
 ## Quick start
 
@@ -173,7 +173,7 @@ What this means in practice:
 
 Time reading is platform-specific.  The library selects the appropriate source file at build time:
 
-| `ENV` | Clock source |
+| `TPROF_TARGET` | Clock source |
 |-------|--------------|
 | `POSIX` (default) | `library/src/timeProfiler_clock_posix.c` |
 | `TEST` | `library/src/timeProfiler_clock_posix.c` |

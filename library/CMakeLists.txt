@@ -10,16 +10,16 @@ SET(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # Select the platform-specific clock source
-if(ENV STREQUAL RTEMS)
+if(TPROF_TARGET STREQUAL RTEMS)
     set(TPROF_CLOCK_SRC src/timeProfiler_clock_rtems.c)
-elseif(ENV STREQUAL FREERTOS)
+elseif(TPROF_TARGET STREQUAL FREERTOS)
     set(TPROF_CLOCK_SRC src/timeProfiler_clock_freertos.c)
 else()
     set(TPROF_CLOCK_SRC src/timeProfiler_clock_posix.c)
 endif()
 
 # TEST-specific coverage flags
-if(ENV STREQUAL TEST)
+if(TPROF_TARGET STREQUAL TEST)
     set(COVERAGE_FLAGS "-fprofile-arcs -ftest-coverage")
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${COVERAGE_FLAGS}")
 endif()
