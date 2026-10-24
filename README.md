@@ -86,10 +86,10 @@ make
 
 ```bash
 cmake .. -DTPROF_TARGET=TEST
-make unittest
+make test_coverage
 ```
 
-* `make unittest` is a **custom target** that cleans `.gcda`, runs `ctest -V`, and generates coverage reports via `gcovr`.
+* `make test_coverage` is a **custom target** that cleans `.gcda`, runs `ctest -V`, and generates coverage reports via `gcovr`.
 * Do **not** run `make test` or `ctest` directly if you want coverage.
 * Reports land in `reports/`.
 

@@ -12,16 +12,16 @@ add_test(test_tProf ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/test_tProf)
 
 set(REPORT_FILE coverage_report.txt)
 
-add_custom_target(unittest
+add_custom_target(test_coverage
     DEPENDS test_tProf
     COMMAND find ./ -name "*.gcda" -exec rm {} "\;"
     COMMAND ctest -V --output-on-failure --output-junit ${CMAKE_SOURCE_DIR}/reports/ctest-results.xml
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
     )
 
-add_custom_command(TARGET unittest
+add_custom_command(TARGET test_coverage
     COMMAND echo "Collecting coverage"
     COMMAND gcovr -r ${CMAKE_SOURCE_DIR} -e ${CMAKE_SOURCE_DIR}/test -e ${CMAKE_SOURCE_DIR}/external --html-details ${CMAKE_SOURCE_DIR}/reports/coverage.html --sonarqube ${CMAKE_SOURCE_DIR}/reports/sonar_coverage.xml --txt > ${CMAKE_SOURCE_DIR}/reports/${REPORT_FILE}
-    COMMAND gcovr -r ${CMAKE_SOURCE_DIR} -e ${CMAKE_SOURCE_DIR}/test -e ${CMAKE_SOURCE_DIR}/external --txt --branches >> ${CMAKE_SOURCE_DIR}/reports/${REPORT_FILE}
+    COMMAND gcovr -r ${CMAKE_SOURCE_DIR} -e ${CMAKE_SOURCE_DIR}/test -e ${CMAKE_SOURCE_DIR}/external --txt --txt-metric branch >> ${CMAKE_SOURCE_DIR}/reports/${REPORT_FILE}
     COMMAND cat ${CMAKE_SOURCE_DIR}/reports/${REPORT_FILE}
     )

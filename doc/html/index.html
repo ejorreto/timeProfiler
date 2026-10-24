@@ -139,9 +139,9 @@ FreeRTOS</h2>
 </div><!-- fragment --><h2 class="doxsection"><a class="anchor" id="autotoc_md8"></a>
 Unit tests &amp; coverage</h2>
 <div class="fragment"><div class="line">cmake .. -DTPROF_TARGET=TEST</div>
-<div class="line">make unittest</div>
+<div class="line">make test_coverage</div>
 </div><!-- fragment --><ul>
-<li><span class="tt">make unittest</span> is a <b>custom target</b> that cleans <span class="tt">.gcda</span>, runs <span class="tt">ctest -V</span>, and generates coverage reports via <span class="tt">gcovr</span>.</li>
+<li><span class="tt">make test_coverage</span> is a <b>custom target</b> that cleans <span class="tt">.gcda</span>, runs <span class="tt">ctest -V</span>, and generates coverage reports via <span class="tt">gcovr</span>.</li>
 <li>Do <b>not</b> run <span class="tt">make test</span> or <span class="tt">ctest</span> directly if you want coverage.</li>
 <li>Reports land in <span class="tt">reports/</span>.</li>
 </ul>
