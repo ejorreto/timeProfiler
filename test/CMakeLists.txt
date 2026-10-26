@@ -6,7 +6,7 @@ add_executable(test_tProf
   mocks/MocktimeProfiler_clock.c
   )
 
-target_link_libraries(test_tProf timeProfiler Unity_CMock m)
+target_link_libraries(test_tProf timeProfiler unity cmock m)
 
 add_test(test_tProf ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/test_tProf)
 
@@ -21,7 +21,7 @@ add_custom_target(test_coverage
 
 add_custom_command(TARGET test_coverage
     COMMAND echo "Collecting coverage"
-    COMMAND gcovr -r ${CMAKE_SOURCE_DIR} -e ${CMAKE_SOURCE_DIR}/test -e ${CMAKE_SOURCE_DIR}/external --html-details ${CMAKE_SOURCE_DIR}/reports/coverage.html --sonarqube ${CMAKE_SOURCE_DIR}/reports/sonar_coverage.xml --txt > ${CMAKE_SOURCE_DIR}/reports/${REPORT_FILE}
-    COMMAND gcovr -r ${CMAKE_SOURCE_DIR} -e ${CMAKE_SOURCE_DIR}/test -e ${CMAKE_SOURCE_DIR}/external --txt --txt-metric branch >> ${CMAKE_SOURCE_DIR}/reports/${REPORT_FILE}
+    COMMAND gcovr -r ${CMAKE_SOURCE_DIR} -e ${CMAKE_SOURCE_DIR}/test --html-details ${CMAKE_SOURCE_DIR}/reports/coverage.html --sonarqube ${CMAKE_SOURCE_DIR}/reports/sonar_coverage.xml --txt > ${CMAKE_SOURCE_DIR}/reports/${REPORT_FILE}
+    COMMAND gcovr -r ${CMAKE_SOURCE_DIR} -e ${CMAKE_SOURCE_DIR}/test --txt --txt-metric branch >> ${CMAKE_SOURCE_DIR}/reports/${REPORT_FILE}
     COMMAND cat ${CMAKE_SOURCE_DIR}/reports/${REPORT_FILE}
     )

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.18)
 project(tProf VERSION 0.1.0 LANGUAGES C)
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/ar)
@@ -24,7 +24,7 @@ if(TPROF_TARGET STREQUAL TEST)
   add_compile_definitions(UNITY_INCLUDE_DOUBLE)
   include(CTest)
   add_subdirectory(library)
-  add_subdirectory(external)
+  include(${CMAKE_SOURCE_DIR}/cmake/TPROFUnityCMockDeps.cmake)
   add_subdirectory(test)
 
 elseif(TPROF_TARGET STREQUAL POSIX)
