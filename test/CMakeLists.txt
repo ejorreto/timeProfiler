@@ -19,9 +19,9 @@ add_custom_target(test_coverage
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
     )
 
-add_custom_command(TARGET test_coverage
+add_custom_command(TARGET test_coverage POST_BUILD
     COMMAND echo "Collecting coverage"
-    COMMAND gcovr -r ${CMAKE_SOURCE_DIR} -e ${CMAKE_SOURCE_DIR}/test --html-details ${CMAKE_SOURCE_DIR}/reports/coverage.html --sonarqube ${CMAKE_SOURCE_DIR}/reports/sonar_coverage.xml --txt > ${CMAKE_SOURCE_DIR}/reports/${REPORT_FILE}
-    COMMAND gcovr -r ${CMAKE_SOURCE_DIR} -e ${CMAKE_SOURCE_DIR}/test --txt --txt-metric branch >> ${CMAKE_SOURCE_DIR}/reports/${REPORT_FILE}
+    COMMAND gcovr -r ${CMAKE_SOURCE_DIR} -e ${CMAKE_SOURCE_DIR}/test -e ${CMAKE_SOURCE_DIR}/.deps --html-details ${CMAKE_SOURCE_DIR}/reports/coverage.html --sonarqube ${CMAKE_SOURCE_DIR}/reports/sonar_coverage.xml --txt > ${CMAKE_SOURCE_DIR}/reports/${REPORT_FILE}
+    COMMAND gcovr -r ${CMAKE_SOURCE_DIR} -e ${CMAKE_SOURCE_DIR}/test -e ${CMAKE_SOURCE_DIR}/.deps --txt --txt-metric branch >> ${CMAKE_SOURCE_DIR}/reports/${REPORT_FILE}
     COMMAND cat ${CMAKE_SOURCE_DIR}/reports/${REPORT_FILE}
     )
