@@ -24,7 +24,7 @@ if(TPROF_TARGET STREQUAL TEST)
   add_compile_definitions(UNITY_INCLUDE_DOUBLE)
   include(CTest)
   add_subdirectory(library)
-  include(${CMAKE_SOURCE_DIR}/cmake/TPROFUnityCMockDeps.cmake)
+  include(${CMAKE_CURRENT_LIST_DIR}/cmake/TPROFUnityCMockDeps.cmake)
   add_subdirectory(test)
 
 elseif(TPROF_TARGET STREQUAL POSIX)
