@@ -89,6 +89,8 @@ cmake .. -DTPROF_TARGET=TEST
 make test_coverage
 ```
 
+* The TEST configuration requires **CMake 3.18 or newer**.
+* Unity and CMock are **not vendored**: without further options they are fetched at configure time (network required) — see *Providing Unity and CMock* below.
 * `make test_coverage` is a **custom target** that cleans `.gcda`, runs `ctest -V`, and generates coverage reports via `gcovr`.
 * Do **not** run `make test` or `ctest` directly if you want coverage.
 * Reports land in `reports/`.
@@ -147,6 +149,55 @@ target_link_libraries(your_app PRIVATE timeProfiler::timeProfiler)
 
 The imported target carries the include path and the link library, so no manual `include_directories()` is needed. Linking the installed `libtimeProfiler.a` directly also works if you prefer not to use CMake packages.
 
+## Providing Unity and CMock
+
+The TEST configuration needs the Unity test framework and the CMock runtime. They are **not vendored** in this repository. Each dependency is resolved through the ladder below, and Unity is always resolved before CMock (CMock's headers include `unity.h`).
+
+1. **Pre-defined CMake target** — if your build already defines `unity` (or the `unity::framework` alias, imported globally) or `cmock`, those targets are used as they are.
+2. **Pre-built library** — point at an archive or shared library you built:
+
+   ```bash
+   cmake .. -DTPROF_TARGET=TEST \
+     -DTPROF_UNITY_LIBRARY=/path/to/libunity.a \
+     -DTPROF_UNITY_INCLUDE_DIR=/path/to/unity/headers \
+     -DTPROF_CMOCK_LIBRARY=/path/to/libcmock.a \
+     -DTPROF_CMOCK_INCLUDE_DIR=/path/to/cmock/headers
+   ```
+
+3. **Source tree** — point at a Unity/CMock checkout or zip extract; its `src/unity.c` / `src/cmock.c` is compiled by this build:
+
+   ```bash
+   cmake .. -DTPROF_TARGET=TEST \
+     -DTPROF_UNITY_SOURCE_DIR=/path/to/Unity \
+     -DTPROF_CMOCK_SOURCE_DIR=/path/to/CMock
+   ```
+
+4. **FetchContent default** — with none of the above, the sources are downloaded at configure time from the upstream repositories, pinned to release tags. No git submodules are involved.
+
+| Variable | Meaning |
+|----------|---------|
+| `TPROF_UNITY_INCLUDE_DIR` | Directory containing `unity.h` |
+| `TPROF_UNITY_LIBRARY` | Pre-built Unity archive or shared library |
+| `TPROF_UNITY_SOURCE_DIR` | Unity source tree (contains `src/unity.c`) |
+| `TPROF_CMOCK_INCLUDE_DIR` | Directory containing `cmock.h` |
+| `TPROF_CMOCK_LIBRARY` | Pre-built CMock archive or shared library |
+| `TPROF_CMOCK_SOURCE_DIR` | CMock source tree (contains `src/cmock.c`) |
+| `TPROF_UNITY_GIT_TAG` / `TPROF_UNITY_GIT_REPOSITORY` | FetchContent pin overrides (Unity) |
+| `TPROF_CMOCK_GIT_TAG` / `TPROF_CMOCK_GIT_REPOSITORY` | FetchContent pin overrides (CMock) |
+
+Notes:
+
+* **Tested versions**: Unity `v2.7.0` and CMock `v2.7.0`. When a provided version can be read from its headers and differs from these pins, the configure step emits a warning — the checked-in mocks in `test/mocks/` were generated against the tested versions and may need regeneration.
+* **A pre-built Unity must be built with `UNITY_INCLUDE_DOUBLE`** (the definition the TEST configuration uses); a Unity library built without it breaks the double-precision assertions.
+* CMock's runtime needs no CException, but its headers need Unity's, so provide both together.
+* In super-projects that `add_subdirectory()` timeProfiler, run `ctest` from the timeProfiler build subdirectory (testing is enabled in its scope).
+* Regenerating mocks is a development step, not part of the build: from the `test/` directory, run CMock's Ruby generator against the public header with the local config:
+
+  ```bash
+  cd test
+  ruby <cmock-checkout>/lib/cmock.rb -o cmock_config.yml ../library/include/timeProfiler_clock.h
+  ```
+
 ## Quick start
 
 ```c
@@ -198,7 +249,7 @@ What this means in practice:
 | `library/` | Core library (`timeProfiler.c`, `timeProfiler_clock_*.c`, headers, CMake package template) |
 | `examples/` | `example_posix.c` and `example_statistics_printf.c` (reference, not library) |
 | `test/` | Unity + CMock tests (`test_timeProfiler.c`) |
-| `external/` | Vendored Unity and CMock |
+| `cmake/` | Dependency resolution for the TEST configuration (FetchContent pins or user-provided Unity/CMock) |
 
 ## Clock implementations
 
